@@ -1,0 +1,137 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: julien
+ * Date: 09.11.18
+ * Time: 12:35
+ */
+
+
+/**
+ * Implements hook_schema
+ *
+ */
+
+function survey_schema() {
+    $schema['survey'] = array(
+        'description' => 'This table contains the information about a survey',
+        'fields' => array(
+            'survey_id' => array(
+                'description' => 'The Identifier for a survey',
+                'type' => 'serial',
+                'not null' => TRUE,
+            ),
+            'title' => array(
+                'description' => 'The title of the survey',
+                'type' => 'text',
+                'size' => 'normal',
+            ),
+            'welcome_msg' => array(
+                'description' => 'The welcome msg',
+                'type' => 'text',
+                'size' => 'normal',
+            ),
+            'end_msg' => array(
+                'description' => 'The end msg',
+                'type' => 'text',
+                'size' => 'normal',
+            ),
+
+        ),
+        'primary key' => array('survey_id'),
+    );
+
+    $schema['survey_users'] = array(
+        'description' => 'This tables contains the user tokens and feedbacks',
+        'fields' => array(
+            'user_id' => array(
+                'description' => 'The identifier for the survey users',
+                'type' => 'serial',
+                'not null' => TRUE,
+            ),
+            'user_pw' => array(
+                'description' => 'The user token',
+                'type' => 'text',
+                'size' => 'normal',
+            ),
+            'feedback' => array(
+                'description' => 'The feedback of the user',
+                'type' => 'text',
+                'size' => 'normal',
+            ),
+            'feedback_date' => array(
+                'description' => 'The date of the feedback',
+                'type' => 'datetime',
+                'mysql_type' => 'datetime',
+            ),
+            'feedback_experts' => array(
+              'description' => 'Further experts suggested by of the user',
+              'type' => 'text',
+              'size' => 'normal',
+            ),
+        ),
+        'primary key' => array('user_id'),
+    );
+
+
+    $schema['question_user_answers'] = array(
+        'description' => 'This tables contains the user tokens and feedbacks',
+        'fields' => array(
+            'question_user_answers_id' => array(
+                'description' => 'The identifier for the answers of a user to a question.',
+                'type' => 'serial',
+                'not null' => TRUE,
+            ),
+            'question_id' => array(
+                'description' => 'The identifier for the question from the {question} table.',
+                'type' => 'int',
+            ),
+            'answer_id' => array(
+                'description' => 'The identifier for the answer from the {question_possible_answers} table.',
+                'type' => 'int',
+            ),
+            'answer' => array(
+                'description' => 'The answer',
+                'type' => 'text',
+                'size' => 'medium',
+            ),
+            'user_pw' => array(
+                'description' => 'The answer',
+                'type' => 'text',
+                'size' => 'medium',
+            ),
+            'user_pw' => array(
+                'description' => 'The token',
+                'type' => 'text',
+                'size' => 'medium',
+            ),
+            'comment' => array(
+                'description' => 'Comments from the user',
+                'type' => 'text',
+                'size' => 'medium',
+            ),
+            'is_last_answer' => array(
+                'description' => 'Flaf if it is the last answer',
+                'type' => 'int',
+                'size' => 'tiny',
+            ),
+
+        ),
+        'primary key' => array('question_user_answers_id'),
+    );
+
+    return $schema;
+}
+
+/**
+ * Add feedback_experts field to {survey_users} table.
+ */
+function survey_update_7100() {
+  $definition = array(
+    'type' => 'text',
+    'description' => "The suggested experts of the user",
+    'not null' => FALSE,
+  );
+  db_add_field('survey_users', 'feedback_experts', $definition);
+}
+

@@ -1,0 +1,18 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: julien
+ * Date: 18.11.18
+ * Time: 08:56
+ */
+
+/**
+ * Implements hook_preprocess_HOOK
+ * Adds necessary js and css for help information
+ * @params $vars
+ */
+
+function delphi_help_preprocess_page(&$vars) {
+    drupal_add_css(drupal_get_path('module', 'delphi_help') . "/css/delphi_help.css");
+}
+

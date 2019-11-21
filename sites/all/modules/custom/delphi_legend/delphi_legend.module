@@ -1,0 +1,179 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: hofer
+ * Date: 22.04.2017
+ * Time: 18:05
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function delphi_legend_menu()
+{
+    $items = array();
+    $items['delphi_legend'] = array(
+        'name' => 'delphi_legend',
+        'description' => 'Extends the delphi module',
+        'access arguments' => array('Access content'),
+        'page callback' => 'delpi_legend_helper',
+    );
+
+    $items['admin/config/delphi/delphi_legend'] = array(
+        'title' => 'Delphi Legend CSS',
+        'type' => MENU_NORMAL_ITEM,
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('delphi_legend_admin_form'),
+        'access arguments' => array('administer users'),
+    );
+
+  	$items['delphi_render'] = array(
+  	  'name' => 'delphi_render',
+	  'description' => 'Test nested divs',
+	  'page callback' => 'delphi_render',
+	  'access arguments' => array('Access content'),
+	);
+
+
+    return $items;
+}
+
+
+/**
+ * Test render for nested divs
+ *
+ */
+function delphi_render() {
+  //Only for test purpose
+  $first_quantil = 1;
+	$third_quantil2 = 4;
+  $median = 2;
+  $avg = 1.3;
+  $min = 1;
+  $avg_absolut = 2;
+  $median_absolut = 3;
+  $third_quantil_absolut = 2;
+  $third_quantil = 4;
+  $first_quantil_absolut = 1;
+  $max = 5;
+  $links = array('1 = Hallo', '2 = Opa', '3 = Oma',);
+
+
+  $legend = array(
+	  'container' => array(
+		'#prefix' => '<div id="eins">',
+		'#suffix' => '</div>',
+		'markup' => array(
+		  '#markup' => 'This is inside the container div',
+		),
+		'boxplot' => array(
+		'#prefix' => '<div class="boxplot">',
+		'#suffix' => '</div>',
+			'boxlinie' => array(
+			  '#prefix' => '<div class="box linie">',
+			  '#suffix' =>'</div>',
+			),
+			'boxwhisker' => array(
+			  '#prefix' => '<div class="box whisker">',
+			  '#suffix' =>'</div>',
+			),
+			'boxinterquant' => array(
+			  '#prefix' => '<div class="box interquart" style="margin-left: '. $first_quantil. '%;width: '.$third_quantil2.'%;">',
+			  '#suffix' =>'</div>',
+			),
+			'boxmedian' => array(
+			  '#prefix' => '<div class="box median" style="margin-left: '.$median.'%;">',
+			  '#suffix' =>'</div>',
+			),
+			'boxmittel' => array(
+			  '#prefix' => '<div class="box mittel" style="margin-left: '.$avg.'%;">',
+			  '#suffix' =>'</div>',
+			),
+			's_min' => array(
+			  '#prefix' => '<span class="schild s_min" style="margin-left: 0%;">',
+			  '#suffix' =>'</span>',
+			  'markup' => array(
+				'#markup' => $min,
+			  ),
+			),
+			's_average' => array(
+			  '#prefix' => '<span class="schild min s_average" style="margin-left: '.$avg.'%;">',
+			  '#suffix' =>'</span>',
+			  'markup' => array(
+				'#markup' => $avg_absolut,
+			  ),
+			),
+			's_median' => array(
+			  '#prefix' => '<span class="schild min s_median" style="margin-left: '.$median.'%;"> ',
+			  '#suffix' =>'</span>',
+			  'markup' => array(
+				'#markup' => $median_absolut,
+			  ),
+			),
+			's_third_quantil' => array(
+			  '#prefix' => '<span class="schild min s_third_quantil" style="margin-left: '.$third_quantil.'%;"> ',
+			  '#suffix' =>'</span>',
+			  'markup' => array(
+				'#markup' => $third_quantil_absolut,
+			  ),
+			),
+			's_first_quantil' => array(
+			  '#prefix' => '<span class="schild s_first_quantil" style="margin-left: '.$first_quantil.'%;"> ',
+			  '#suffix' =>'</span>',
+			  'markup' => array(
+				'#markup' => $first_quantil_absolut,
+			  ),
+			),
+			's_max' => array(
+			  '#prefix' => '<span class="schild min s_max" style="margin-left: 100%;"> ',
+			  '#suffix' =>'</span>',
+			  'markup' => array(
+				'#markup' => $max,
+			  ),
+			),
+			'legend' => array(
+				'#theme' => 'item_list',
+				'#items' => $links,
+				'#type' => 'ul',
+				'#attributes' => array('class' => 'my-list'),
+			),
+
+		  ),
+
+	),
+  );
+
+
+
+  return $legend;
+}
+
+
+
+/**
+ * Implements hook_comment_insert().
+ */
+
+function delpi_legend_helper() { //TODO Array als Parameter
+    $links = array('Hallo', 'Opa', 'Oma',);
+    $legend = array(
+      '#theme' => 'item_list',
+        '#items' => $links,
+        '#type' => 'ul',
+        '#attributes' => array('class' => 'my-list'), //TODO class Attribut als Parameter
+    );
+
+    return $legend;
+}
+
+function delphi_legend_admin_form($form, &$form_state) {
+    $form = array();
+    $form['delphi_legend_css_class'] = array(
+        '#type' => 'textfield',
+        '#title' => t('CSS Class for the legend list'),
+        '#default_value' => variable_get('delphi_legend_css_class','my-list'),
+
+    );
+
+    return system_settings_form($form);
+}

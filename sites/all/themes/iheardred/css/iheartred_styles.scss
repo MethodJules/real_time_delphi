@@ -1,0 +1,838 @@
+
+/*==============================================================================
+*   Colors
+*============================================================================ */
+
+$color-dark: #000;
+$color-middle: #999;
+$color-bright: #fff;
+
+$color-first-quantil: #29c95f;
+$color-third-quantil: #27abf6;
+$color-median: #ff7d5f;
+$color-average: #ff5bbd;
+
+#action-links {
+  display:none;
+}
+
+/* Fixed header */
+/* Fixed site header*/
+#inner_header_wrapper {
+    background: 0;
+    background-color: #dedede;
+    position: fixed;
+    height: 62px;
+    width:100%;
+    z-index: 200;
+}
+
+#container {
+  padding-top: 62px;
+}
+
+/* Fixed survey headers */
+.question-header {
+  position: fixed;
+  width: inherit;
+  background: #fff;
+  z-index: 200;
+  padding-top: 10px;
+}
+
+.page-title {
+  padding-top: 10px;
+}
+
+.question-content-wrapper {
+  z-index: 1;
+
+  &.one-row {
+    padding-top: calc(75px + 10px);
+  }
+
+  &.two-rows {
+    padding-top: calc(75px + 10px + 20px);
+  }
+
+  &.three-rows {
+    padding-top: calc(75px + 10px + 40px);
+  }
+
+  &.four-rows {
+    padding-top: calc(75px + 10px + 60px);
+  }
+}
+
+.evaluation-content-wrapper {
+  z-index: 1;
+
+  &.one-row {
+    padding-top: calc(95px + 10px + 30px);
+  }
+
+  &.two-rows {
+    padding-top: calc(0px + 10px + 20px + 30px);
+  }
+
+  &.three-rows {
+    padding-top: calc(95px + 10px + 40px + 30px);
+  }
+
+  &.four-rows {
+    padding-top: calc(95px + 10px + 60px + 30px);
+  }
+
+  .form-type-textfield {
+    width: 77px !important;
+    margin-top: 60px !important;
+  }
+
+  .form-type-checkbox {
+    width: 200px;
+    margin-top: 67px;
+
+    label {
+      vertical-align: text-bottom;
+    }
+  }
+}
+
+.question-content-wrapper .form-type-checkbox {
+  margin-top: -36px;
+  margin-left: 100px;
+
+  label {
+    vertical-align: text-bottom;
+    font-weight: normal;
+  }
+}
+
+#content {
+  margin-top: 0;
+}
+/*** End fixed header ***/
+
+
+#main-menu li,
+#main-menu li .expanded {
+  border: 0;
+}
+
+/* Hide menu bar navigation and breadcrumbs */
+.menu_wrapper,
+#breadcrumbs {
+  display: none !important;
+}
+
+.menu_wrapper,
+#main-menu li ul,
+#main-menu ul.menu li li > a {
+  background-color: #359ECF;
+  color: #fff;
+  border: 0;
+}
+
+
+#main-menu li:hover > a,
+#main-menu li a.active,
+#main-menu ul.menu li li:hover > a {
+  background-color: #254563;
+  border: 0;
+}
+
+#main-menu li a {
+  color: #fff;
+}
+
+
+th {
+  background-color: #444;
+}
+
+#methodengrafik_test {
+  width: 100%;
+  height: 400px;
+}
+
+
+
+
+
+
+
+
+
+
+/* Umfragen stylen */
+
+/* Radiobuttons und Boxplots zusammen stylen */
+
+fieldset {
+  margin: 0 0 2rem 0;
+  padding: 1rem;
+  position: relative;
+  top: 0;
+  border-radius: 0;
+  border: 0;
+  width: 100%;
+  max-width: 600px;
+
+    &:nth-child(n) {
+      background-color: #e2e7ed;
+    }
+}
+
+
+/* Radio-Buttons besser zugänglich stylen */
+
+.form-item {
+  width: 100%;
+  margin: auto auto 1rem auto;
+}
+
+.form-item-quantity {
+  width: auto;
+}
+
+.form-submit[value="Ändern"] {
+  /*
+  margin-top: calc(2rem + 1rem + 5px);
+  */
+  margin-top: 21px;
+  margin-bottom: 2rem;
+  clear: none !important;
+}
+
+.form-submit {
+  float: left;
+  clear: none;
+}
+
+.form-submit:first-of-type {
+  clear: left;
+}
+
+
+$dimensions: 24;
+
+%radio_btn_x_dims {
+  width: auto;
+  float: left;
+  /* Reduziert auf 15%, damit 7 Spalten Skala in eine Reihe passt */
+  margin-left: calc(15.0% - 15.6px);
+}
+
+@mixin radio_btn_x_dims {
+  @for $i from 0 through $dimensions {
+    .form-item-dim#{$i} {
+      margin-top: 1rem; /* Angepasst, um ausschweifende Freiflächen zu reduzieren */
+
+      &.form-type-radio {
+        @extend %radio_btn_x_dims;
+        position: relative;
+
+        & label.option {
+          display: block;
+          position: absolute;
+          float: none;
+          left: 0.9em;
+          width: 5rem;
+          font-size: 1em;
+          line-height: 1.1;
+          transform: rotate(29deg);
+          transform-origin: 15px 6px;
+        }
+      }
+    }
+  }
+}
+
+.evaluation-content-wrapper label.option {
+  transform-origin: 24px 2px !important;
+}
+
+@include radio_btn_x_dims;
+
+/* Radio-Buttons als Achsenbeschriftung auf Boxplot skalieren */
+.radios-3 {
+  & .form-type-radio {
+    margin-left: calc(68.2%);
+  }
+
+  & .form-type-radio:nth-child(3) {
+    margin-left: calc(11.65%);
+  }
+}
+
+.radios-5 > .form-type-radio {
+  margin-left: calc(20.9%);
+}
+
+.radios-6 > .form-type-radio {
+  margin-left: calc(15.1%);
+}
+
+.radios-7 > .form-type-radio {
+  margin-left: calc(11.6%);
+}
+
+/* Es wird ein label Element benötigt, welches nach dem input auftritt, damit dieses als :checked verwendet werden kann, um die Buttons umzustylen
+
+.form-type-radio:before {
+  content:'';
+  display: block;
+  visibility: visible;
+  float: left;
+  position: absolute;
+  z-index: 998;
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+  border: 1px solid $color-bright;
+  background-color: #transparent;
+  margin: -1px 0 0 -1px;
+}
+
+input.form-radio:checked .form-radio:after {
+  content:'';
+  display: block;
+  float: left;
+  position: absolute;
+  z-index: 999;
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+  background-color: $color-bright;
+  margin: -1px 0 0 -1px;
+}
+
+*/
+
+.form-radios {
+  width: 100%;
+}
+
+.form-radios .form-type-radio:first-of-type {
+  margin-left: 0 !important;
+}
+
+
+.svg-container {
+  float: left;
+}
+
+/* spezifischer stylen, damit keine riesigen Lücken entstehen! */
+
+.form-type-radios {
+  width: 100%;
+  max-width: 600px;
+  padding: 0;
+  margin-bottom: 4rem;
+}
+
+#survey-form .form-type-textfield,
+#survey-form .form-type-textarea {
+  max-width: 600px;
+  margin-bottom: 0;
+}
+
+.form-wrapper .form-type-radios {
+  margin-bottom: 0.4rem;
+}
+
+.form-item {
+  float:left;
+}
+
+/* Textfelder */
+
+.form-textarea-wrapper {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 0px 0px;
+  padding: 0;
+  float: left;
+  & .form-textarea {
+    width: 100%;
+  }
+}
+
+/* Style Textaerea wie Textfelder */
+textarea {
+  -moz-appearance: textfield;
+  -webkit-appearance: textfield;
+  padding: 1px;
+  font: -moz-field;
+  line-height: normal;
+}
+
+/* Format survey configuration form */
+#survey-configure-form {
+  & * {
+    max-width: 100% !important;
+  }
+
+  & .fieldset-wrapper {
+    margin-top: 0px;
+  }
+
+  & .text-format-wrapper, .form-textarea-wrapper {
+    margin-bottom: 2em;
+  }
+
+  & .filter-wrapper {
+    display: none;
+  }
+}
+
+/* Zusätzlicher Abstand nur nach den Radio-Buttons der Evaluationsseite, damit Platz für die Beschriftung ist.
+   Radio-Buttons auf Boxplot-Skala ausrichten. */
+#survey-question-evaluation-form .form-type-radios {
+  margin-top: 0;
+  margin-bottom: 4rem;
+  margin-left: -5px;
+}
+
+/* Abstand bei fünf Radio-Buttons anpassen, damit Beschriftung noch in Fieldset passt. */
+#survey-question-evaluation-form .radios-5 .form-type-radio:last-of-type {
+  right: 2em;
+}
+
+/* Display NA answer option directly below the textarea */
+#survey-question-evaluation-form .evaluation.text .form-type-checkbox {
+  margin-top: -1rem;
+}
+
+#survey-question-evaluation-form .evaluation.text .fieldset-wrapper {
+  margin-top: 0.5rem;
+}
+
+#survey-question-evaluation-form .evaluation.text .boxplot-nodata {
+  margin-top: 30px;
+}
+
+#survey-question-evaluation-form {
+  & .evaluation .knowledgeMap.form-textarea {
+    display: none;
+  }
+}
+
+/* Entfernt, um ausschweifende Freiflächen zu reduzieren */
+/*.fieldset-wrapper .form-type-textfield {
+  margin-top: 4rem;
+}*/
+
+
+/* BOXPLOTS SIND STYLISCH WIE KINYE WEST, JUNGE! */
+
+
+.container {
+  width: 100%;
+  max-width: 600px;
+  margin: calc(2rem + 1rem) 0 2% 0;
+  padding: 0;
+  float: left;
+}
+
+
+.boxplot {
+  width: 70%;
+  height: 40px;
+  max-width: 600px;
+  position: relative;
+  float:left;
+}
+
+.box {
+  width: 100%;
+  height: calc(40px + 2rem);
+  position: absolute;
+}
+
+.linie {
+  height: 20px;
+  border-bottom: 1px solid $color-middle;
+}
+
+.whisker {
+  width: 100%;
+  height: 15px;
+  margin-top: 12.5px;
+  border-left: 1px solid $color-middle;
+  border-right: 1px solid $color-middle;
+}
+
+.thirdquant {
+  background-color: $color-bright;
+  background: repeating-linear-gradient(45deg, $color-middle, $color-middle 1px, transparent 1px, transparent 10px),
+              linear-gradient(to bottom, $color-bright, $color-bright);
+  width: 35%;
+  height: 40px;
+  border: 1px solid $color-middle;
+  border-right: 3px solid $color-third-quantil;
+}
+
+
+.median,
+.mittel,
+.interquart {
+  width: 1px;
+  border-right: 3px solid $color-average;
+  bottom: 0;
+  z-index: 99;
+}
+
+.interquart {
+    border-right: 3px solid $color-first-quantil;
+    height: 40px;
+}
+
+.mittel {
+  top: 0;
+}
+
+.median {
+  border-left: 0px solid transparent;
+  border-right: 3px solid $color-median;
+}
+
+.schild {
+  display: inline-block;
+  position: absolute;
+  margin-top: -1rem;
+  padding: 0 .5rem 0;
+  font-weight: bold;
+  color: #fff;
+  background-color: $color-middle;
+  border-radius: 300px;
+  text-align: center;
+  z-index: 100;
+}
+
+.schild.s_median,
+.schild.s_average {
+  margin-top: -3rem;
+  background-color: $color-average;
+}
+
+.schild.s_average {
+  margin-top: 4rem;
+}
+
+.schild.s_median {
+  background-color: $color-median;
+}
+
+.schild.s_first_quantil {
+  background-color: $color-first-quantil;
+  margin-top: 2rem;
+}
+
+.schild.s_third_quantil {
+  background-color: $color-third-quantil;
+}
+
+/* Legende fuer Boxplots */
+
+.legend {
+  float: right;
+  display: block;
+  width: 20%;
+  /* Legende vertikal an Boxplot ausrichten */
+  margin-top: -2.3rem;
+  margin-bottom: 1rem;
+  line-height: 1;
+  font-weight: bold;
+
+  & .item-list ul li {
+    background: none, $color-bright;
+    list-style-type: none;
+    padding: 5px;
+    margin: 5px;
+    }
+
+  & .item-list ul li:nth-child(1) {
+    background: none, $color-first-quantil;
+    color: $color-bright;
+    }
+
+  & .item-list ul li:nth-child(2) {
+    background: none, $color-average;
+    color: $color-bright;
+    }
+
+  & .item-list ul li:nth-child(3) {
+    background: none, $color-median;
+    color: $color-bright;
+    }
+
+  & .item-list ul li:nth-child(4) {
+    background: none, $color-third-quantil;
+    color: $color-bright;
+    }
+
+  }
+
+/* [Fix] Antwortmöglichkeiten Blöcke immer in neuer Zeile */
+#delphi-question-change-question-form fieldset {
+  clear: both;
+}
+
+/* Breite des Textfeld für Titel der Frage an Seitenbreite anpassen */
+#question-field, .item-title {
+  width: 100%;
+}
+
+/* Titel der Antwortmöglichkeiten beim Ausfüllen einer Umfrage hervorheben */
+.answers > div > label {
+  font-weight: bold;
+}
+
+/* Fix damit Boxplots nichts mehr über Fieldset-Box hinausragen */
+#survey-question-evaluation-form .fieldset-wrapper {
+  margin-top: 55px;
+}
+
+#survey-question-evaluation-form .title-long .fieldset-wrapper {
+  margin-top: 80px;
+}
+
+.boxplot-nodata {
+  margin-top: 1px;
+  margin-bottom: 10px;
+}
+
+/* Abstand Antwortmöglichkeit Textfeld beim Beantworten der Umfrage */
+.answers > .form-type-textfield {
+  margin-top: 1rem;
+}
+
+/* Radio-Buttons auf einer Höhe mit Labels */
+.answers .form-type-radio label {
+  margin-top: -4px;
+}
+input.form-radio {
+  vertical-align: sub;
+}
+
+/* Radio-Buttons zur konfiguration der Fragen nebeneinander */
+#delphi-question-change-question-form .form-type-radio,
+#question-form .form-type-radio{
+  width: auto;
+  margin-right: 2rem;
+}
+
+/* Boxplot Fieldset Formatierung */
+#survey-question-evaluation-form fieldset legend {
+  // Fieldset Titel bündig mit Box
+  left: 0;
+  // mehrzeiliger Fieldset Titel
+  height: auto;
+  text-indent: 0;
+  padding-left: 10px;
+
+  & .fieldset-legend {
+    font-weight: bold;
+  }
+}
+
+/* Rahmen als zur Strukturierung auf Umfrageseite */
+.answers > .form-type-textfield,
+.answers > .form-type-radios,
+#survey-form .answers > .form-type-textarea {
+  border-style: solid;
+  border-width: 2px;
+  padding: 0.5rem 1rem;
+  margin-top: 0.5rem;
+}
+
+#survey-form .answers.text {
+  & > .form-type-textarea {
+    padding-bottom: 2rem;
+  }
+
+  & .form-type-checkbox {
+    margin-top: -2rem;
+    margin-left: 1.2rem;
+  }
+}
+
+.answers > .form-type-radios {
+  padding-bottom: 4rem;
+  margin-bottom: 0;
+}
+
+/* Ein-/ausblendbare Kommentare als Buttons gestyled */
+.toggleComments {
+
+  & .form-type-checkbox {
+    margin-top: -1rem;
+    margin-bottom: 0;
+  }
+
+  & * {
+    float: right;
+  }
+
+  & input {
+    display: none;
+  }
+
+  & input[type=checkbox] + label {
+    color: #777;
+    background-color: #F2F2F2;
+    cursor: pointer;
+    padding: 4px 1em 4px 1em;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+  }
+
+  & input[type=checkbox]:checked + label {
+    background-color: #DBDBDB;
+  }
+}
+
+#delphi-question-change-question-form *,
+#question-form * {
+  max-width: 800px;
+}
+
+#delphi-question-change-question-form .answer-sets,
+#question-form .answer-sets {
+  max-width: 740px;
+}
+
+.select-table .form-type-select {
+  margin: auto;
+}
+
+/* Hide elements on question group form */
+.question-group-form {
+  & .form-item-quantity,
+  #edit-back,
+  .form-type-radios {
+    display: none !important;
+  }
+}
+
+/* Highlight question group rows on question overview*/
+.question-group-row td {
+  background-color: lightyellow;
+}
+
+.question-row td:first-child {
+  padding-left: 20px;
+}
+
+#edit-new-questiongroup {
+  margin-right: 2em;
+}
+
+/**
+ * Style the survey progress bar.
+ */
+.progress-bar {
+  background-color: #f4f4f4;
+  border-radius: 4px;
+  height: 20px;
+  width: 100%;
+  float: left;
+  margin-top: 1em;
+}
+
+.progress {
+  background-color: lightblue;
+  text-align: center;
+  border-radius: inherit;
+  min-width: 2em;
+}
+
+/* Hide text on disabled textfields */
+.question-content-wrapper input[type="text"]:disabled,
+.evaluation-content-wrapper input[type="text"]:disabled {
+  color: transparent;
+}
+
+/* Style end survey form */
+.form-item-feedback {
+  margin-top: 2em;
+  margin-bottom: 0;
+
+}
+
+.form-item-experts {
+  margin-top: 1em;
+}
+
+/* Always position the back button to the left */
+.buttons-submit,
+#survey-question-evaluation-form {
+  float: left;
+  clear: both;
+
+  #edit-back {
+    float: left;
+  }
+
+  #edit-submit {
+    float: none;
+  }
+}
+
+.answers.knowledgeMap {
+  & .form-textarea-wrapper {
+    display: none;
+  }
+
+  & .form-type-textarea {
+    height: 6rem
+  }
+
+  & .form-type-checkbox {
+    margin-top: -2rem;
+    margin-left: 1.2rem;
+  }
+
+  & .form-type-item {
+    margin-top: -3.5rem;
+    margin-left: 1.2rem;
+  }
+}
+
+#survey-form .image-style-none {
+  height: 300px;
+  width: auto;
+  max-width: 550px;
+}
+
+
+#edit-field-token,
+#edit-preview {
+  display: none;
+}
+
+#survey-form .answers.knowledgeMap {
+  & .form-type-textarea {
+
+  }
+}
+
+
+
+.knowledgemap-edit-link {
+  margin-top: -2.4rem;
+  margin-left: 30rem;
+}
+
+.evaluation.knowledgeMap {
+  & .fieldset-wrapper {
+    margin-top: 0 !important;
+  }
+
+  & .form-type-checkbox {
+    margin-top: 0 !important;
+  }
+
+}

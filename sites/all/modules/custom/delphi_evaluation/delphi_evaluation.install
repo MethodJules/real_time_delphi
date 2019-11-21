@@ -1,0 +1,136 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: julien
+ * Date: 26.03.18
+ * Time: 10:31
+ */
+
+
+/**
+ * Implement hook_schema
+ * @return mixed
+ */
+function delphi_evaluation_schema() {
+    //export_id|user_pw|title|item|answer|comment|is_last_answer
+
+    $schema['delphi_evaluation'] = array(
+        'description' => 'The table for evaluation data',
+        'fields' => array(
+
+            'export_id' => array(
+              'description' => 'The primary identifier for a export dataset',
+              'type' => 'serial',
+              'unsigned' => TRUE,
+              'not null' => TRUE,
+            ),
+
+            'user_pw' => array(
+                'description' => 'The user pw from the questionair',
+                'type' => 'varchar',
+                'length' => 255,
+                'not null' => TRUE,
+            ),
+
+            'title' => array(
+                'description' => 'The title of the hypothesis',
+                'type' => 'varchar',
+                'length' => 2000,
+                'not null' => TRUE,
+            ),
+
+            'item' => array(
+                'description' => 'The item of the hypothesis',
+                'type' => 'varchar',
+                'length' => 2000,
+                'not null' => TRUE,
+            ),
+
+            'answer' => array(
+                'description' => 'The answer of the item',
+                'type' => 'varchar',
+                'length' => 255,
+                'not null' => TRUE,
+            ),
+
+            'comment' => array(
+                'description' => 'The comment of the item',
+                'type' => 'varchar',
+                'length' => 2000,
+                'not null' => FALSE,
+            ),
+
+            'is_last_answer' => array(
+                'description' => 'The flag if it is last answer',
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+
+        ),
+
+        'primary key' => array('export_id'),
+    );
+
+
+    $schema['delphi_data'] = array(
+        'description' => 'The table for evaluation data',
+        'fields' => array(
+
+            'data_id' => array(
+                'description' => 'The primary identifier for a export dataset',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+
+            'user_pw' => array(
+                'description' => 'The user pw from the questionair',
+                'type' => 'varchar',
+                'length' => 255,
+                'not null' => TRUE,
+            ),
+
+            'Thesengruppe' => array(
+                'description' => 'The title of the hypothesis',
+                'type' => 'varchar',
+                'length' => 2000,
+                'not null' => TRUE,
+            ),
+
+            'These' => array(
+                'description' => 'The item of the hypothesis',
+                'type' => 'varchar',
+                'length' => 2000,
+                'not null' => TRUE,
+            ),
+
+            'Antwort' => array(
+                'description' => 'The answer of the item',
+                'type' => 'varchar',
+                'length' => 255,
+                'not null' => FALSE,
+            ),
+
+            'comment' => array(
+                'description' => 'The comment of the item',
+                'type' => 'varchar',
+                'length' => 2000,
+                'not null' => FALSE,
+            ),
+
+            'is_last_answer' => array(
+                'description' => 'The flag if it is last answer',
+                'type' => 'int',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+
+        ),
+
+        'primary key' => array('data_id'),
+    );
+
+
+    return $schema;
+}

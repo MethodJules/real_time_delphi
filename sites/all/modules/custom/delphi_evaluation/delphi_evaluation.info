@@ -1,0 +1,4 @@
+name = Auswertung
+description = Dieses Modul erstellt die Auswertung
+core = 7.x
+dependencies[] = xautoload

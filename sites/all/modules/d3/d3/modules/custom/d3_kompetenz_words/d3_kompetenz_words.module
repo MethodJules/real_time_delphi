@@ -1,0 +1,33 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: hofer
+ * Date: 12.12.2016
+ * Time: 16:55
+ */
+/**
+ * Implements hook_menu
+ */
+function d3_kompetenz_words_menu() {
+    $items['d3/kompetenz_words'] = array(
+      'title' => 'Kompetenzbegriffe',
+        'description' => 'Kompetenbegriffe visualisiert',
+        'access callback' => TRUE,
+        'page callback' => 'd3_kompetenz_words',
+        'type' => MENU_LOCAL_TASK,
+    );
+
+    return $items;
+}
+
+
+
+function d3_kompetenz_words() {
+    $chart = array(
+     'id' => 'visualization',
+        'type' => 'kompetenz_words',
+
+    );
+
+    return d3_draw($chart);
+}

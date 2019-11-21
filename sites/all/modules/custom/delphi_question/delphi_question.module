@@ -1,0 +1,117 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: jonaskortum
+ * Date: 24.07.17
+ * Time: 11:27
+ */
+
+function delphi_question_menu() {
+
+    $items['add_questions/%'] = array(
+        'page callback' => 'drupal_get_form',
+        'type' => MENU_NORMAL_ITEM,
+        //'access callback' => 'user_is_logged_in',
+        'access arguments' => array('administer users'),
+        'page arguments' => array('delphi_question_add_question_form'),
+        'file' => 'delphi_question_add_question.inc'
+    );
+
+    $items['add_ranking_questions/%'] = array(
+        'page callback' => 'drupal_get_form',
+        //'access callback' => 'user_is_logged_in',
+        'access arguments' => array('administer users'),
+        'page arguments' => array('delphi_question_add_ranking_question_form'),
+        'file' => 'delphi_question_add_ranking_question.inc'
+    );
+
+
+
+
+    $items['add_group/group'] = array(
+    'page callback' => 'drupal_get_form',
+    'type' => MENU_NORMAL_ITEM,
+    'title' => t('Gruppe hinzufügen'),
+    //'access callback' => 'user_is_logged_in',
+    'access arguments' => array('administer users'),
+    'page arguments' => array('delphi_question_add_question_form'),
+    'file' => 'delphi_question_add_question.inc'
+  );
+
+    $items['change_question/%/%'] = array(
+        'page callback' => 'drupal_get_form',
+        'access callback' => 'user_is_logged_in',
+        'page arguments' => array('delphi_question_change_question_form'),
+        'file' => 'delphi_question_change_question.inc'
+    );
+
+    $items['question_overview'] = array(
+        'page callback' => 'drupal_get_form',
+        'type' => MENU_NORMAL_ITEM,
+        'title' => t('Question overview'),
+        //'access callback' => 'user_is_logged_in',
+        'access arguments' => array('administer users'),
+	'page arguments' => array('delphi_question_question_overview_form'),
+        'file' => 'delphi_question_overview.inc'
+    );
+
+    $items['delete_question/%'] = array(
+        'access callback' => 'user_is_logged_in',
+        'page callback' => 'delphi_question_delete_question',
+        'file' => 'delphi_question_overview.inc'
+    );
+
+    return $items;
+}
+
+
+/**
+ * Gibt bereits definierte Antwort-Sets zurück.
+ *
+ * @return array
+ *   Alle bereits definierten Antwort-Sets.
+ */
+function delphi_question_get_answer_sets() {
+  $answerSets = array();
+
+  $sql = "SELECT answer_id, button_id, title 
+          FROM {question_buttons_title}
+          WHERE question_id IN (SELECT question_id FROM {question})
+          ORDER BY answer_id";
+
+  $result = db_query($sql);
+
+  // Zusammengehörige Einträge gruppieren
+  foreach($result as $item) {
+    $answerSets[$item->answer_id][$item->button_id] = $item->title;
+  }
+
+  // Doppelte Einträge entfernen und Sets nach Anzahl der Einträge sortieren
+  $answerSets = array_unique($answerSets, SORT_REGULAR);
+  array_multisort(array_map('count', $answerSets), SORT_ASC, $answerSets);
+
+  return $answerSets;
+}
+
+/**
+ * Add autosize capability to the form. Autosize resizes textareas to fit it's content.
+ */
+function delphi_question_add_autosize($form) {
+
+  // automatically resize textareas to content
+  $form['#attached']['js'][] = array(
+    'type' => 'file',
+    'data' => drupal_get_path('module', 'delphi_question') . '/js/autosize.min.js',
+  );
+
+  $form['#attached']['js'][] = array(
+    'type' => 'inline',
+    'scope' => 'footer',
+    'data' => "(function ($) {
+                   autosize($('textarea'));
+                 }(jQuery));",
+  );
+
+  return $form;
+
+}

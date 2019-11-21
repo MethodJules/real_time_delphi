@@ -1,0 +1,39 @@
+name = Delphi
+description = Install for creating real time delphi studies.
+version = VERSION
+core = 7.x
+dependencies[] = block
+dependencies[] = color
+dependencies[] = comment
+dependencies[] = contextual
+dependencies[] = dashboard
+dependencies[] = help
+dependencies[] = image
+dependencies[] = list
+dependencies[] = menu
+dependencies[] = number
+dependencies[] = options
+dependencies[] = path
+dependencies[] = taxonomy
+dependencies[] = dblog
+dependencies[] = search
+dependencies[] = shortcut
+dependencies[] = toolbar
+dependencies[] = overlay
+dependencies[] = field_ui
+dependencies[] = file
+dependencies[] = rdf
+
+; RTD
+dependencies[] = libraries
+dependencies[] = xautoload
+dependencies[] = delphi_evaluation
+dependencies[] = delphi_help
+dependencies[] = delphi_legend
+dependencies[] = delphi_question
+dependencies[] = survey
+
+; Information added by Drupal.org packaging script on 2019-05-08
+version = "7.67"
+project = "drupal"
+datestamp = "1557336079"

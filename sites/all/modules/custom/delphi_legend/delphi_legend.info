@@ -1,0 +1,5 @@
+name = delphi_legend
+description = Extends the delphi module with a legend
+core = 7.x
+files[] = delphi_legend.test
+configure = admin/config/delphi/delphi_legend

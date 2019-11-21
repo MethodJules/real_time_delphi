@@ -1,0 +1,33 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: hofer
+ * Date: 22.04.2017
+ * Time: 18:07
+ */
+class Delphi_LegendTest extends DrupalWebTestCase {
+    public static function getInfo() {
+        $info = array(
+            'name' => 'Delphi Legend',
+            'description' => 'Test for the Delphi Legend module',
+            'group' => 'Delphi',
+        );
+
+        return $info;
+    }
+
+    /**
+     * Perform any setup task for our test case
+     */
+    public function setUp() {
+        parent::setUp(array('delphi_legend'));
+    }
+
+    /**
+     * Check if trigger is available
+     */
+    public function testNavigation() {
+        $this->drupalGet('delphi_legend');
+        $this->assertResponse(200, 'The page is available');
+    }
+}

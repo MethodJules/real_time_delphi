@@ -1,0 +1,58 @@
+@charset "UTF-8";
+#action-links{display:none}
+#inner_header_wrapper{background:0;background-color:#dedede}
+#main-menu li,#main-menu li .expanded{border:0}
+#main-menu li ul,#main-menu ul.menu li li>a,.menu_wrapper{background-color:#359ECF;color:#fff;border:0}
+#main-menu li a.active,#main-menu li:hover>a,#main-menu ul.menu li li:hover>a{background-color:#254563;border:0}
+#main-menu li a{color:#fff}
+th{background-color:#444}
+#methodengrafik_test{width:100%;height:400px}
+fieldset{margin:0 0 2rem;padding:1rem;position:relative;top:0;border-radius:0;border:0;width:100%;max-width:600px}
+fieldset:nth-child(n){background-color:#e2e7ed}
+.form-item{width:100%;margin:2rem auto 1rem}
+.form-item-quantity{width:auto}
+.form-submit[value="├ändern"]{margin-top:calc(2rem + 1rem + 5px)}
+.form-submit{float:left;clear:none}
+.form-submit:first-of-type{clear:left}
+.form-item-dim0.form-type-radio,.form-item-dim1.form-type-radio,.form-item-dim2.form-type-radio,.form-item-dim3.form-type-radio,.form-item-dim4.form-type-radio,.form-item-dim5.form-type-radio,.form-item-dim6.form-type-radio,.form-item-dim7.form-type-radio,.form-item-dim8.form-type-radio{width:auto;float:left;margin-left:calc(17.5% - 15.6px)}
+.form-item-dim0.form-type-radio{position:relative}
+.form-item-dim0.form-type-radio label.option{display:block;position:absolute;float:none;left:.9em;width:4rem;font-size:1em;line-height:1.1;transform:rotate(90deg);transform-origin:left top}
+.form-item-dim1.form-type-radio{position:relative}
+.form-item-dim1.form-type-radio label.option{display:block;position:absolute;float:none;left:.9em;width:4rem;font-size:1em;line-height:1.1;transform:rotate(90deg);transform-origin:left top}
+.form-item-dim2.form-type-radio{position:relative}
+.form-item-dim2.form-type-radio label.option{display:block;position:absolute;float:none;left:.9em;width:4rem;font-size:1em;line-height:1.1;transform:rotate(90deg);transform-origin:left top}
+.form-item-dim3.form-type-radio{position:relative}
+.form-item-dim3.form-type-radio label.option{display:block;position:absolute;float:none;left:.9em;width:4rem;font-size:1em;line-height:1.1;transform:rotate(90deg);transform-origin:left top}
+.form-item-dim4.form-type-radio{position:relative}
+.form-item-dim4.form-type-radio label.option{display:block;position:absolute;float:none;left:.9em;width:4rem;font-size:1em;line-height:1.1;transform:rotate(90deg);transform-origin:left top}
+.form-item-dim5.form-type-radio{position:relative}
+.form-item-dim5.form-type-radio label.option{display:block;position:absolute;float:none;left:.9em;width:4rem;font-size:1em;line-height:1.1;transform:rotate(90deg);transform-origin:left top}
+.form-item-dim6.form-type-radio{position:relative}
+.form-item-dim6.form-type-radio label.option{display:block;position:absolute;float:none;left:.9em;width:4rem;font-size:1em;line-height:1.1;transform:rotate(90deg);transform-origin:left top}
+.form-item-dim7.form-type-radio{position:relative}
+.form-item-dim7.form-type-radio label.option{display:block;position:absolute;float:none;left:.9em;width:4rem;font-size:1em;line-height:1.1;transform:rotate(90deg);transform-origin:left top}
+.form-item-dim8.form-type-radio{position:relative}
+.form-item-dim8.form-type-radio label.option{display:block;position:absolute;float:none;left:.9em;width:4rem;font-size:1em;line-height:1.1;transform:rotate(90deg);transform-origin:left top}
+.form-radios{width:100%}
+.form-radios .form-type-radio:first-of-type{margin-left:0}
+.svg-container{float:left}
+.form-type-radios{width:100%;max-width:600px;padding:0;margin-bottom:4rem}
+.form-wrapper .form-type-radios{margin-bottom:0}
+.form-item{float:left}
+.form-textarea-wrapper{width:100%;max-width:600px;margin:0;padding:0;float:left}
+.form-textarea-wrapper .form-textarea{width:100%}
+.form-type-textarea{margin-top:6rem}
+.container{width:100%;max-width:600px;margin:calc(2rem + 1rem) 0 2% 0;padding:0;float:left}
+.boxplot{width:70%;height:40px;max-width:600px;position:relative}
+.box{width:100%;height:calc(40px + 2rem);position:absolute}
+.linie{height:20px;border-bottom:1px solid #999}
+.whisker{width:100%;height:15px;margin-top:12.5px;border-left:1px solid #999;border-right:1px solid #999}
+.interquart{background:repeating-linear-gradient(45deg,#999,#999 1px,transparent 1px,transparent 10px),linear-gradient(to bottom,#fff,#fff);margin-left:60%;width:35%;height:40px;border:1px solid #999;border-left:6px solid #29c95f;border-right:6px solid #74ebff}
+.median,.mittel{width:1px;margin-left:72%;border-right:6px solid #ff5bbd;bottom:0}
+.median{border-left:6px solid transparent;border-right:6px solid #ff7d5f}
+.schild{display:inline-block;position:absolute;margin-top:-1rem;padding:0 .5rem;font-weight:700;color:#fff;background-color:#999;border-radius:300px;text-align:center}
+.schild.s_average,.schild.s_median{margin-top:-3rem;background-color:#ff5bbd}
+.schild.s_median{background-color:#ff7d5f}
+.schild.s_first_quantil{background-color:#29c95f}
+.schild.s_third_quantil{background-color:#74ebff}
+#legend{float:right;position:absolute;display:block;right:-43%;top:-82%;line-height:0}

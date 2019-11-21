@@ -1,0 +1,4 @@
+name = Fragen für die Umfrage
+description = Dieses Modul umfasst alle Aktionen, die mit den Fragen der Umfrage zu tun haben
+core = 7.x
+package = x.Navi

@@ -1,0 +1,46 @@
+name = iheartred
+description =subtheme for executive responsive theme</a>
+base theme = execute_responsive_theme
+core = 7.x
+
+engine = phptemplate
+stylesheets[all][] = css/iheartred_styles.css
+stylesheets[all][] = css/media.css
+
+regions[user_menu]  	 = User menu
+regions[search]  	  	 = Search
+regions[slideshow]       = Slideshow
+regions[top_first]       = First top
+regions[top_second]      = Second top
+regions[top_third]       = Third top
+regions[sidebar_first]   = First Sidebar
+regions[sidebar_second]  = Second Sidebar
+regions[content]         = Content
+regions[bottom_widget_1] = Bottom widget 1
+regions[bottom_widget_2] = Bottom widget 2
+regions[bottom_widget_3] = Bottom widget 3
+regions[footer_first]    = First Bottom
+regions[footer_second]   = Second Bottom
+regions[footer_third]    = Third Bottom
+regions[footer_forth]    = Forth Bottom
+regions[footer]          = Footer
+
+features[] = logo
+features[] = name
+features[] = slogan
+features[] = node_user_picture
+features[] = comment_user_picture
+features[] = comment_user_verification
+features[] = favicon
+features[] = main_menu
+features[] = secondary_menu
+
+settings[breadcrumbs]  = 0
+settings[social_links]  = 0
+
+
+; Information added by Drupal.org packaging script on 2015-03-19
+version = "7.x-1.2"
+core = "7.x"
+project = "execute_responsive_theme"
+datestamp = "1426788198"

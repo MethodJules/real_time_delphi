@@ -1,0 +1,7 @@
+
+@media screen and (max-width: 960px) {
+
+  .content-sidebar-wrap, #content,
+  #sidebar-first, #sidebar-second { float:left !important; width:100% !important; }
+
+}

@@ -1,0 +1,450 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: julien
+ * Date: 06.03.18
+ * Time: 20:55
+ */
+
+use Drupal\delphi_evaluation\Helper;
+/**
+ * Implements hook_menu().
+ */
+function delphi_evaluation_menu()
+{
+    //routing to show all answers from all respondents
+    $items['evaluation/all'] = array(
+        'title' => 'Auswertung alle',
+        'page callback' => 'delphi_evaluation_show_evaluation_all',
+        'access callback' => 'user_is_logged_in',
+
+    );
+
+    $items['evaluation/data'] = array(
+        'title' => 'Auswertung Visualisiert',
+        'page callback' => 'delphi_evaluation_data',
+        'access callback' => 'user_is_logged_in',
+        'file' => 'delphi_evaluation_data.inc',
+        'type' => MENU_NORMAL_ITEM,
+
+    );
+    /*
+    //routing to show only answers by respondents
+    $items['evaluation/by_respondent'] = array(
+        'title' => 'Auswertung pro Respondent',
+        'page callback' => 'delphi_evaluation_show_evaluation_by_respondent',
+        'access callback' => 'user_is_logged_in',
+
+    );
+    */
+    /*
+    //routing to show data in a HTML table
+    $items['evaluation/table'] = array(
+        //'title' => 'Tabelle',
+        'page callback' => 'delphi_evaluation_table',
+        'access callback' => 'user_is_logged_in',
+        'type' => MENU_CALLBACK, //so the item does not appear in the menu tree
+    );
+
+    //routing to export data as csv
+    $items['evaluation/exportcsv'] = array(
+      'title' => 'Export der gesammelten Daten CSV',
+      'page callback' => 'delphi_evaluation_exportcsv',
+      'access callback' => 'user_is_logged_in',
+    );
+
+    //routing to show data in a HTML table
+    $items['evaluation/tablecsv'] = array(
+      'title' => 'Auswertung CSV Format',
+      'page callback' => 'delphi_evaluation_tablecsv',
+      'access callback' => 'user_is_logged_in',
+      'type' => MENU_CALLBACK,
+    );
+    */
+    return $items;
+
+}
+
+/**
+ * Shows the data saved by the delphi survey
+ * @return HTML Table
+ */
+function delphi_evaluation_show_evaluation_all() {
+    $delphiHelper = new Drupal\delphi_evaluation\Helper\Delphi_Evaluation_Helper();
+
+    $sql = "SELECT user_pw, title, type, q.question_id, q.weight, answer_id, answer, comment, is_last_answer FROM {question} q
+        LEFT JOIN {question_user_answers} a ON q.question_id = a.question_id;";
+
+     $result = $delphiHelper->delphi_evaluation_get_survey_data($sql, 1);
+     //dsm($result);
+    delphi_evaluation_save_to_database($result);
+     //dsm($result);
+
+
+
+     return theme('table', $result);
+}
+
+function delphi_evaluation_show_evaluation_by_respondent() {
+
+    $form = drupal_get_form('form_delphi_evaluation_respondents');
+    return $form;
+}
+
+function delphi_evaluation_get_evaluation_by_respondent($user_pw) {
+    $sql = "SELECT * FROM {delphi_evaluation} WHERE user_pw = '" . $user_pw . "'";
+    $delphiHelper = new Drupal\delphi_evaluation\Helper\Delphi_Evaluation_Helper();
+    $result = $delphiHelper->delphi_evaluation_get_survey_data($sql, 0);
+    return $result;
+
+}
+
+
+
+/**
+ * Create form to chose the respondent
+ * @param $form
+ * @param $form_state
+ * @return array
+ */
+
+function form_delphi_evaluation_respondents($form, &$form_state) {
+    $respondents = delphi_evaluation_get_all_respondent_identifieres();
+    $options = array();
+    foreach ($respondents as $respondent) {
+        $options[$respondent->user_pw] = $respondent->user_pw;
+    }
+
+    $form = array();
+
+
+
+    $form['choice'] = array(
+        '#type' => 'select',
+        '#title' => t('Respondents'),
+        '#options' => $options,
+    );
+
+    $form['buttons']['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Submit'),
+    );
+
+    return $form;
+}
+
+function form_delphi_evaluation_respondents_submit($form, &$form_state) {
+    //get selected user_pw
+    $user_pw = $form_state['values']['choice'];
+    //save data in a temporary variable
+    $result = delphi_evaluation_get_evaluation_by_respondent($user_pw);
+    variable_set('delphi_evaluation', $result);
+    //save data in a temporary variable
+    $result_transposed = delphi_transpose_data($result);
+    variable_set('delphi_evaluation_transposed', $result_transposed);
+    //got evaluation/table <- this is used as an internal API Call
+    drupal_goto('evaluation/table');
+}
+
+function delphi_evaluation_table(){
+    $result = variable_get('delphi_evaluation');
+
+    $form = drupal_get_form('form_delphi_evaluation_download');
+
+    $item_count = count($result['rows']);
+    return render($form) . '<br/>' . '<p>Beantwortete Items: ' . $item_count . '</p><br/>' . theme('table', $result);
+}
+
+
+/**
+ * Creates a Form with a Select-Dropdown-Field and a Download-Button
+ * @param $form
+ * @param $form_state
+ * @return mixed
+ */
+function form_delphi_evaluation_download($form, &$form_state) {
+    $form['choice'] = array(
+        '#type' => 'select',
+        '#title' => t('Choose normal or transposed'),
+        '#options' => array(
+            'normal' => t('Normal'),
+            'transposed' => t('Transposed'),
+        ),
+    );
+
+    $form['buttons']['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Download'),
+        '#weight' => -1,
+    );
+
+    return $form;
+}
+
+/**
+ * Handles the sumbit of form_evaluation_download Form
+ * @param $form
+ * @param $form_state
+ */
+function form_delphi_evaluation_download_submit($form, &$form_state) {
+    $download_type = $form_state['values']['choice'];
+
+    if ($download_type == 'normal') {
+        $result = variable_get('delphi_evaluation');
+    } elseif ($download_type == 'transposed') {
+        $result = variable_get('delphi_evaluation_transposed');
+    }
+    delphi_evaluation_export($result);
+
+}
+
+
+/**
+ * Transposes table data
+ * @param $result
+ *
+ */
+
+function delphi_transpose_data($result) {
+    $rows = $result['rows'];
+    $transposed_rows = array();
+    $transposed_header = array();
+
+    foreach ($rows as $row) {
+        for($i=1; $i<count($row);$i++) {
+            //dsm($row[$i]);
+            array_push($transposed_rows, $row[$i]);
+
+        }
+    }
+
+    //dsm(count($transposed_rows));
+    for($i=0;$i<count($transposed_rows);$i++){
+        array_push($transposed_header, 'item' . ($i+1));
+    }
+
+    //TODO iteriere über die Anzahl der rows und schreibe das als Header
+
+    //dsm($transposed_rows);
+    $result_transposed = array('header' => $transposed_header, 'rows' => array($transposed_rows));
+    //dsm($transposed);
+
+    return $result_transposed;
+}
+
+function delphi_evaluation_save_to_database($result) {
+    $empty = db_query("SELECT export_id FROM {delphi_evaluation} LIMIT 1");
+    $empty = $empty->fetchAll();
+    //dsm(count($empty));
+    //dsm($empty);
+    if(count($empty) < 1) {
+        //Table
+        //user_pw|title|item|answer|comment|is_last_answer
+        foreach ($result['rows'] as $row) {
+            //dsm($row[0]);
+
+            $export_id = db_insert('delphi_evaluation')
+                ->fields(array(
+                    'user_pw' => $row[0],
+                    'title' => $row[1],
+                    'item' => $row[2],
+                    'answer' => $row[3],
+                    'comment' => $row[4],
+                    'is_last_answer' => $row[5],
+                ))
+                ->execute();
+        }
+
+        drupal_set_message('Daten in Datenbank geschrieben.', 'status');
+    } else {
+        drupal_set_message('Daten stehen bereits in der Datenbank', 'status');
+    }
+
+}
+
+
+/**
+ * Export data to a csv file
+ * @param $variables
+ */
+
+function delphi_evaluation_export($variables) {
+
+    //$query = "SELECT * FROM {delphi_evaluation}";
+    //$result = db_query($query);
+    //$result = $result->fetchAll();
+    //dsm($result);
+    //dsm($variables);
+    drupal_add_http_header('Content-Type', 'text/csv; utf-8');
+    drupal_add_http_header('Content-Disposition', 'attachment; filename=export.csv');
+
+        $output = '';
+        $keys = array();
+        foreach ($variables['header'] as $key => $value) {
+            //dsm($value);
+            $keys[] = $value;
+        }
+        if ($keys) {
+            $output .= implode(";", $keys) . "\n";
+        }
+        foreach ($variables['rows'] as $value) {
+
+            $output .= implode(";", $value) . "\n";
+        }
+        print $output;
+
+
+        drupal_exit();
+    // send response headers to the browser
+
+
+}
+
+
+function delphi_evaluation_get_all_respondent_identifieres() {
+    $query = "SELECT user_pw FROM {survey_users} GROUP BY user_pw ORDER BY user_id ASC;";
+    $result = db_query($query);
+    $respondent_identifieres = $result->fetchAll();
+
+    return $respondent_identifieres;
+
+}
+
+function form_delphi_evaluation_display($form, &$form_state) {
+    $form = array();
+
+    $form['choice'] = array(
+        '#tpye' => 'select',
+        '#title' => t('All or Respondent'),
+        '#options' => array(
+            'all' => t('All'),
+            'respondent' => t('Respondent'),
+        ),
+        '#default_value' => 'all',
+
+
+    );
+
+    $form['buttons']['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Submit'),
+    );
+
+    return $form;
+}
+
+/**
+ * Exports the collected data as a CSV file in the specified format
+ * Fall;Einschätzung1;These2.Item1.init;These2.Item1.rev;These2.Item1.comm...
+ *
+ * @throws \Exception
+ */
+function delphi_evaluation_exportcsv() {
+
+  $delphiHelper = new Drupal\delphi_evaluation\Helper\Delphi_Evaluation_Helper();
+
+  drupal_add_http_header('Content-Type', 'text/csv; utf-8');
+  drupal_add_http_header('Content-Disposition', 'attachment; filename=export.csv');
+
+  $respondents = delphi_evaluation_get_all_respondent_identifieres();
+
+  $header = $delphiHelper->delphi_evaluation_get_header('csv');
+  $rows[] = $header;
+
+  // export one row with all answers for each respondent
+  foreach ($respondents as $respondent) {
+    $token = $respondent->user_pw;
+    $answers = $delphiHelper->delphi_evaluation_get_user_data($token);
+
+    $row[] = $token;
+
+    // restructure array for
+    $answersSurvey = array();
+    foreach ($answers as $answer) {
+      $answersItem = array ('answer' => $answer->answer, 'comment' =>$answer->comment, 'is_last_answer' =>$answer->is_last_answer, 'type' => $answer->type);
+      $answersSurvey[$answer->question_id][$answer->answer_id][] = $answersItem;
+    }
+
+    // populate row with user answers
+    foreach ($answersSurvey as $tId => $thesis) {
+      foreach ($thesis as $iId => $item) {
+
+        // self-evaluation (just track answer, no changes or comments possible)
+        if ($item[0]['type'] === 'group') {
+          $row[] = $item[0]['answer'];
+
+          // questionnaire items (track initial answer, revisited answer and comments)
+        } else {
+          // user changed his answer (several answers for one item)
+          if (count($item) === 2) {
+            // initial answer
+            $row[] = $item[0]['answer'];
+
+            // revisited answer
+            $row[] = $item[1]['answer'];
+
+            // comment
+            if($item[0]['comment'] || $item[1]['comment']) {
+              $row[] = "\"" . check_plain($item[0]['comment']) . check_plain($item[1]['comment']) . "\"";
+            } else {
+              $row[] = '';
+            }
+
+          } else if (count($item) > 2) {
+            $row[] = $item[0]['answer'];
+
+            $row[] = $item[count($item)-1]['answer'];
+
+            if($item[0]['comment'] || $item[1]['comment']) {
+              $row[] = "\"" . check_plain($item[0]['comment']) . check_plain($item[2]['comment']) . "\"";
+            } else {
+              $row[] = '';
+            }
+
+          } else {
+            // initial answer
+            $row[] = $item[0]['answer'];
+
+            // revisited answer
+            $row[] = '';
+
+            // comment
+            if($item[0]['comment']) {
+              $row[] = "\"" . check_plain($item[0]['comment']) . "\"";
+            } else {
+              $row[] = '';
+            }
+          }
+        }
+
+      }
+    }
+
+    $rows[] = $row;
+    $row = array();
+  }
+
+
+  $output = '';
+  foreach ($rows as $row) {
+
+    $output .= implode(";", $row) . "\n";
+  }
+  print $output;
+
+
+  drupal_exit();
+  // send response headers to the browser
+}
+
+
+/**
+ * @return array
+ * @throws \Exception
+ */
+function delphi_evaluation_tablecsv(){
+  $delphiHelper = new Drupal\delphi_evaluation\Helper\Delphi_Evaluation_Helper();
+
+
+  return $delphiHelper->delphi_evaluation_get_header('html');
+}

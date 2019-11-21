@@ -1,0 +1,119 @@
+<?php
+/**
+ * Implements hook_schema
+ */
+
+function delphi_question_schema() {
+    $schema['question'] = array(
+        'description' => 'This table contains the hypothesises and groups of them',
+        'fields' => array(
+            'question_id' => array(
+                'description' => 'The question_id',
+                'type' => 'serial',
+                'not null' => TRUE,
+            ),
+            'title' => array(
+                'description' => 'The question a.k.a hypothesis',
+                'type' => 'text',
+                'size' => 'normal',
+            ),
+            'weight' => array(
+                'description' => 'The weight of the question a.k.a hypothesis',
+                'type' => 'int',
+            ),
+            'type' => array(
+                'description' => 'The type (question|group) of the question a.k.a hypothesis',
+                'type' => 'varchar',
+                'length' => 255,
+                'default' => 'question',
+            ),
+        ),
+        'primary key' => array('question_id'),
+    );
+
+
+
+
+    $schema['question_possible_answers'] = array(
+        'description' => 'This table contains the possible answers for a question',
+        'fields' => array(
+            'answers_id' => array(
+                'description' => 'The id for an answer',
+                'type' => 'serial',
+                'not null' => TRUE,
+            ),
+            'description' => array(
+                'description' => 'The description about the description',
+                'type' => 'text',
+                'size' => 'normal',
+                'not null' => FALSE,
+            ),
+            'isRadioButton' => array(
+                'description' => 'Flag that tells if the question is a radio button',
+                'type' => 'int',
+            ),
+            'question_id' => array(
+                'description' => 'The id that identifies the question from the question table',
+                'type' => 'int',
+            ),
+            'weight' => array(
+                'description' => 'The weight of the question from the question table',
+                'type' => 'int',
+            ),
+            'question_type' => array(
+                'description' => 'The type of the question',
+                'type' => 'text',
+                'size' => 'normal',
+            ),
+        ),
+        'primary key' => array('answers_id'),
+    );
+
+    $schema['question_buttons_title'] = array(
+        'description' => 'This table contains the questions button titles at the likert scales',
+        'fields' => array(
+            'question_button_title_id' => array(
+                'description' => 'The question_button_title_id',
+                'type' => 'serial',
+                'not null' => TRUE,
+            ),
+            'question_id' => array(
+                'type' => 'int',
+            ),
+            'answer_id' => array(
+                'type' => 'int',
+            ),
+            'button_id' => array(
+                'type' => 'int',
+            ),
+            'title' => array(
+                'type' => 'text',
+                'size' => 'medium',
+            ),
+        ),
+        'primary key' => array('question_button_title_id'),
+    );
+
+    return $schema;
+}
+
+
+/**
+ * Add field 'question_type' to table {question_possible_answers}.
+ */
+function delphi_question_update_7100() {
+  $spec = array(
+    'type' => 'text',
+    'description' => 'The type of the question.',
+    'not null' => FALSE,
+  );
+
+  db_add_field('question_possible_answers', 'question_type', $spec);
+}
+
+/**
+ * Changes field 'answer' type to mediumtext to support answers for all possible question types.
+ */
+function delphi_question_update_7101() {
+  db_query('ALTER TABLE {question_user_answers} MODIFY answer MEDIUMTEXT NOT NULL')->execute();
+}
