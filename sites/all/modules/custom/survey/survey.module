@@ -63,7 +63,7 @@ function survey_menu()
       'page callback' => 'drupal_get_form',
       'access arguments' => array('administer users'),
       'page arguments' => array('survey_tokens_delete_form'),
-      'file' => 'survey.form.survey_delete_all_tokens_and_associated_answers.inc',
+      'file' => 'survey.form.survey_delete_all_and_associated_answers.inc',
     );
 
     $items['survey/tokens/%/delete'] = array(
@@ -180,6 +180,7 @@ function survey_start_survey()
 function survey_generate_random_string($length)
 {
     $valid_characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $valid_characters = '0123456789abc';
     $characters_length = strlen($valid_characters);
     $random_string = '';
     for ($i = 0; $i < $length; $i++) {
@@ -224,8 +225,10 @@ function survey_create_token() {
  */
 function survey_get_survey_link($token) {
   global $base_url;
-  $link = check_plain($base_url . '/survey/' . $token);
+  //$link = check_plain($base_url . '/survey/' . $token);
 
+  $link = $base_url . '/survey/' . $token;
+  dsm($link);
   return $link;
 }
 
@@ -541,7 +544,7 @@ function _survey_get_first_open_question($userToken) {
   try {
     $result = db_query("
       SELECT q.question_id FROM {question} as q
-      LEFT OUTER JOIN 
+      LEFT OUTER JOIN
         (SELECT question_id FROM {question_user_answers}
           WHERE user_pw = :userToken
           GROUP BY question_id

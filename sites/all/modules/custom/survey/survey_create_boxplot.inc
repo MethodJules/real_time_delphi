@@ -10,6 +10,10 @@
 function get_graphic($id, $isRadioButton, $indexNoAnswer)
 {
 
+    //Add js
+    //drupal_add_js(drupal_get_path('module', 'survey') . '/js/survey_create_boxplot.js', 'footer');
+    //drupal_add_css(drupal_get_path('module', 'survey') . '/css/survey_create_boxplot.css');
+
     $boxplotNoData = '<div class = "boxplot-nodata">' .
       t('Zu diesem Thema wurden noch nicht genügend Einschätzungen abgegeben.') .
       '</div>';
@@ -131,7 +135,7 @@ function get_graphic($id, $isRadioButton, $indexNoAnswer)
                         '#prefix' => '<span class="schild s_min" style="left: 0%;">',
                         '#suffix' => '</span>',
                         'markup' => array(
-                            //'#markup' => _formatNumber($min),
+                            '#markup' => _formatNumber($min+1),
                             '#markup' => 'min',
                         ),
                     ),
@@ -167,7 +171,7 @@ function get_graphic($id, $isRadioButton, $indexNoAnswer)
                         '#prefix' => '<span class="schild min s_max" style="margin-left: 100%;"> ',
                         '#suffix' => '</span>',
                         'markup' => array(
-                            //'#markup' => _formatNumber($max) . 'Wert für max',
+                            //'#markup' => _formatNumber($max+1),
                             '#markup' => 'max'
                         ),
                     ),

@@ -53,6 +53,12 @@ function delphi_evaluation_data() {
     }
 
 
+    //dsm($answer);
+
+    foreach($answer as $row) {
+        dsm($row->These);
+    }
+
 
     $these = end($answer)->These;
     dsm($these);

@@ -30,6 +30,7 @@ function survey_finish_survey_form() {
 
     $form['feedback'] = array(
         '#title' => t('Anmerkungen'),
+        //'#description' => t('Falls Sie Anmerkungen haben.'),
         '#resizable' => FALSE,
         '#type' => 'textarea',
         '#default_value' => $user['feedback'],
@@ -38,6 +39,7 @@ function survey_finish_survey_form() {
         ),
     );
 
+    /*
     $form['experts'] = array(
       '#title' => t('Kennen Sie weitere Experten? (Name, E-Mail)'),
       '#resizable' => FALSE,
@@ -48,7 +50,7 @@ function survey_finish_survey_form() {
         'id' => 'survey-feedback-experts',
       ),
     );
-
+    */
     $form = delphi_question_add_autosize($form);
 
     $form['submit'] = array(

@@ -77,7 +77,7 @@ function survey_token_form($form, &$form_state) {
             $token = survey_create_token();
             $rows[] = array(
                 'token' => $token,
-                'link' => survey_get_survey_link($token)
+                'link' => f($token)
             );
             $count++;
         }
