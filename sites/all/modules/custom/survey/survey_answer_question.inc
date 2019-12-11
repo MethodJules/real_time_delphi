@@ -263,7 +263,7 @@ function survey_form()
       'data' => "jQuery(document).ready(function () {if (jQuery('.messages.error').length) {
           jQuery('.question-header').css('position', 'unset');
           jQuery('.question-content-wrapper').css('padding-top', 0);
-          
+
           // quick fix to highlight survey item on missing values
           jQuery('.form-type-radios').has('.error').css('border-color', 'red');
         }
@@ -307,6 +307,9 @@ function survey_get_evaluation($form, &$form_state)
     //Es werden alle Fragen aus der Datenbank geladen
     $questions = survey_get_all_questions();
     $answers = survey_get_answers_from_question($question);
+    if(empty($answers)) {
+      drupal_set_message('Bitte überprüfen Sie Ihre URL.');
+    }
 
     //Es wird über alle Antworten iteriert
     $noAnswers = count($answers);
