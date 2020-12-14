@@ -1,0 +1,27 @@
+version: '3'
+services:
+  delphi_db:
+    image: mysql:5.7
+    command: --max_allowed_packet=32505856 #Set max_allowed_packet to 256M
+    environment:
+      MYSQL_DATABASE: delphi_d7
+      MYSQL_ROOT_PASSWORD: delphi_d7
+    ports:
+      - "3306:3306"
+    volumes:
+      - ../delphi_d7_db_data:/var/lib/mysql
+    restart: always
+    #network_mode: host
+  delphi_drupal:
+    depends_on:
+      - delphi_db
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - ..:/app
+    #network_mode: host
+    restart: always
+  #corenlp:
+volumes:
+  delphi_d7_db_data:
