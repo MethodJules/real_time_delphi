@@ -979,3 +979,27 @@ input.form-radio {
   margin-top: 0 !important; }
 
 /*# sourceMappingURL=iheartred_styles.css.map */
+
+/*Tooltip*/
+.tooltip {
+  color: darkorchid;
+}
+.tooltip .boxplot_description {
+  visibility: collapse;
+}
+
+.tooltip:hover .boxplot_description {
+  visibility: visible;
+  cursor: pointer;
+}
+
+/*Boxplot Description */
+.boxplot-description-table {
+  position: fixed;
+  top: 50px;
+  left: 20px;
+  width: inherit;
+  background: #fff;
+  z-index: 200;
+  padding-top: 10px; }
+

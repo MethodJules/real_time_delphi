@@ -135,36 +135,36 @@ function get_graphic($id, $isRadioButton, $indexNoAnswer)
                         '#prefix' => '<span class="schild s_min" style="left: 0%;">',
                         '#suffix' => '</span>',
                         'markup' => array(
-                            '#markup' => _formatNumber($min+1),
-                            '#markup' => 'min',
+                            //'#markup' => _formatNumber($min+1),
+                            '#markup' => 'min(' . _formatNumber($min + 1) . ')',
                         ),
                     ),
                     's_average' => array(
                         '#prefix' => '<span class="schild min s_average" style="margin-left: ' . $avg["procent"] . '%;">',
                         '#suffix' => '</span>',
                         'markup' => array(
-                            '#markup' => _formatNumber($avg["absolut"]),
+                            '#markup' => _formatNumber($avg["absolut"] + 1),
                         ),
                     ),
                     's_median' => array(
                         '#prefix' => '<span class="schild min s_median" style="margin-left: ' . $median["procent"] . '%;"> ',
                         '#suffix' => '</span>',
                         'markup' => array(
-                            '#markup' => _formatNumber($median["absolut"]),
+                            '#markup' => _formatNumber($median["absolut"] + 1),
                         ),
                     ),
                     's_third_quantil' => array(
                         '#prefix' => '<span class="schild min s_third_quantil" style="margin-left: ' . $third_quantil["procent"] . '%;"> ',
                         '#suffix' => '</span>',
                         'markup' => array(
-                            '#markup' => _formatNumber($third_quantil["absolut"]),
+                            '#markup' => _formatNumber($third_quantil["absolut"] + 1),
                         ),
                     ),
                     's_first_quantil' => array(
                         '#prefix' => '<span class="schild s_first_quantil" style="margin-left: ' . $first_quantil["procent"] . '%;"> ',
                         '#suffix' => '</span>',
                         'markup' => array(
-                            '#markup' => _formatNumber($first_quantil["absolut"]),
+                            '#markup' => _formatNumber($first_quantil["absolut"] + 1),
                         ),
                     ),
                     's_max' => array(
@@ -172,7 +172,7 @@ function get_graphic($id, $isRadioButton, $indexNoAnswer)
                         '#suffix' => '</span>',
                         'markup' => array(
                             //'#markup' => _formatNumber($max+1),
-                            '#markup' => 'max'
+                            '#markup' => 'max(' . _formatNumber($max+1) . ')'
                         ),
                     ),
                 ),
@@ -183,6 +183,18 @@ function get_graphic($id, $isRadioButton, $indexNoAnswer)
                     '#prefix' => '<div class="legend">',
                     '#suffix' => '</div>',
                     '#attributes' => array('class' => 'my-list'),
+                ),
+                'tooltip' => array(
+                    '#prefix' => '<div class="tooltip"><span>Infos zum Boxplot</span><div class="boxplot_description">',
+                    '#suffix' => '</div></div>',
+                    '#theme' => 'table',
+                    '#header' => array('Kennzahl', 'Beschreibung'),
+                    '#rows' => array(
+                        array('Unteres Quartil', 'Die kleinsten 25 % der Datenwerte sind kleiner als dieser oder gleich diesem Kennwert'),
+                        array('Median', 'Die kleinsten 50 % der Datenwerte sind kleiner als dieser oder gleich diesem Kennwert'),
+                        array('Oberes Quartil', 'Die kleinsten 75 % der Datenwerte sind kleiner als dieser oder gleich diesem Kennwert'),
+                        array('Maximum', 'Größter Datenwert des Datensatzes')
+                    ), 
                 ),
             ),
 

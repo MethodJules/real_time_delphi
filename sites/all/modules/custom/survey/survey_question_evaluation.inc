@@ -69,6 +69,17 @@ function survey_question_evaluation_form()
         '#markup' => $headline,
         '#prefix' => '<div class="question-header">',
     );
+    /*
+    $form['boxplot']['info'] = array(
+      '#theme' => 'table',
+      '#header' => array('Kennzahl', 'Beschreibung', 'Lage im Boxplot'),
+      '#rows' => array(
+          array('Minimum', 'Kleinster Wert des Datensatzes', 'Ende eines Whiskers |--'),
+          array('Unteres Quartil', 'Die kleinsten 25 % der Datenwerte sind kleiner als dieser oder gleich diesem Kennwert', 'Beginn der Box'),
+      ),
+      '#attributes' => array('class' => array('boxplot-description-table ')), 
+    );
+    */
 
 
     $htmlSelfAssessment = '<div class="self-assessment">' . check_plain($stringSelfAssessment) . '</div>';
